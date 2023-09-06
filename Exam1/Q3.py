@@ -1,3 +1,6 @@
+# Gajanan Donge
+# 20110061
+
 from math import *
 import numpy as np
 
