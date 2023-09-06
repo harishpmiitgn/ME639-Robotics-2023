@@ -1,0 +1,13 @@
+#SCARA RRP
+
+import numpy as np
+
+l1 = l2 = 1
+theta_1 = int(input("Enter configuration of Rjoint 1: "))
+theta_2 = int(input("Enter configuration of Rjoint 2: "))
+d = int(input("Enter configuration of Pjoint: "))
+px = l1*np.cos(theta_1) + l2*np.cos(theta_1+theta_2)
+py = l1*np.sin(theta_1) + l2*np.sin(theta_1+theta_2)
+pz = -d
+
+print("position vector:",np.array([px,py,pz]).T)
