@@ -1,4 +1,5 @@
 #Harikrishnan R
+#Answer to question 4 at the end of this file.
 import numpy as np
 
 def getH(R, d):                             #homogeneous transformation
