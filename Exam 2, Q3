@@ -1,0 +1,39 @@
+#Hrishikesh Birje
+#Q3
+
+import numpy as np
+
+
+#Using homogenous transformations and values of
+#qi are the joint variable
+#di are the offsets
+#ai are the
+
+# 1st Transformation
+H01 = [[np.cos(q1), 0, np.sin(q1), 0],
+       [np.sin(q1), 0, np.cos(q1), 0],
+       [0, 1, 0, d1],
+       [0, 0, 0, 1]]
+H12 = [[np.cos(q2), -np.sin(q2), 0, a2*np.cos(q2)],
+       [np.sin(q2), np.cos(q2), 0, a2*np.sin(q2)],
+       [0, 0, 1, 0],
+       [0, 0, 0, 1]]
+H23 = [[np.cos(q3), -np.sin(q3), 0, a3*np.cos(q3)],
+       [np.sin(q3), np.cos(q3), 0, a3*np.sin(q3)],
+       [0, 0, 1, 0],
+       [0, 0, 0, 1]]
+H34 = [[np.cos(q4), 0, np.sin(q4), 0],
+       [np.sin(q4), 0, np.cos(q4), 0],
+       [0, 1, 0, d4],
+       [0, 0, 0, 1]]
+H45 = [[np.cos(q5), 0, -np.sin(q5), 0],
+       [np.sin(q5), 0, -np.cos(q5), 0],
+       [0, -1, 0, d5],
+       [0, 0, 0, 1]]
+H56 = [[np.cos(q6), -np.sin(q6), 0, 0],
+       [np.sin(q6), np.cos(q6), 0, 0],
+       [0, 0, 1, d6],
+       [0, 0, 0, 1]]
+
+T = np.dot(H01, np.dot(H12,np.dot(H23,np.dot(H34,np.dot(H45, H56)))))
+
