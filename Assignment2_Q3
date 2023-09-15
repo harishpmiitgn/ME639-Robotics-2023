@@ -1,0 +1,31 @@
+
+
+import numpy as np
+
+def calculate_position_vector(theta1, theta2, d1, d3, a1, a2):
+    # Transformation matrices from Frame {0} to Frame {1}
+    T01 = np.array([[np.cos(theta1), -np.sin(theta1), 0, a1.(np.cos(theta1))],
+                    [np.sin(theta1), np.cos(theta1), 0, a1.(np.sin(theta1))],
+                    [0, 0, 1, d1],
+                    [0, 0, 0, 1]])
+
+    # Transformation matrices from Frame {1} to Frame {2}
+    T12 = np.array([[np.cos(theta2), np.sin(theta2), 0, a2.np.cos(theta2)],
+                    [np.sin(theta2), -np.cos(theta2), 0, a2.np.sin(theta2)],
+                    [0, 0, -1, 0],
+                    [0, 0, 0, 1]])
+
+    # Transformation matrices from Frame {2} to End Effector Frame {EE}
+    T23 = np.array([[1, 0, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 0, 1, d3],
+                    [0, 0, 0, 1]])
+
+    # Calculate the transformation matrix from Frame {0} to End Effector Frame {EE}
+    T0EE = np.dot(np.dot(T01, T12), T23)
+
+    # Extract the position vector (p) from the transformation matrix
+    p = T0EE[:3, 3]
+
+    return p
+
