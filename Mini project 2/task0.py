@@ -34,7 +34,7 @@ def forward_kinematics_2r(theta1, theta2, d1, a1, d2, a2,alpha1,alpha2):
     T1 = dh_transform_matrix(theta1, d1, a1, alpha1)
     T2 = dh_transform_matrix(theta2, d2, a2, alpha2)
 
-    T_end_effector = np.dot(T1, T2)
+    T_end_effector = np.matmul(T1, T2)
 
     return T_end_effector
 
@@ -50,7 +50,7 @@ def jacobian_2r(theta1, theta2, d1, a1, d2, a2,alpha1,alpha2):
     :return: Jacobian matrix.
     """
     
-    T2 = forward_kinematics_2r(theta1,d2,a2,alpha1,theta2, d2, a2, alpha2)
+    T2 = forward_kinematics_2r(theta1, theta2, d1, a1, d2, a2,alpha1,alpha2)
 
     # End effector position
     x = T2[0, 3]
