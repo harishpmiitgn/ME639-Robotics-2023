@@ -1,6 +1,6 @@
-## ITR MINIPROJECT-2
-# Team SINGULARITY
+# ITR MINIPROJECT-2
+### Team SINGULARITY
 
-Jenishkumar Chauhan     23210047    
-Anamullah Ansari        23210012
-Vishal Kumar Singh      23210118
+1. Jenishkumar Chauhan     23210047    
+2. Anamullah Ansari        23210012
+3. Vishal Kumar Singh      23210118
