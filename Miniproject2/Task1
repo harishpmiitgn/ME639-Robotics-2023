@@ -1,0 +1,90 @@
+// Motor control pins
+const int motor1Pin1 = 14;  // Motor 1 control pin 1
+const int motor1Pin2 = 27; // Motor 1 control pin 2
+const int motor2Pin1 = 13; // Motor 2 control pin 1
+const int motor2Pin2 = 12; // Motor 2 control pin 2
+
+
+// Kinematic parameters
+const float link1Length = 0.10800; // Length of link 1 (adjust as needed)
+const float link2Length = 0.10765; // Length of link 2 (adjust as needed)
+
+
+// Trajectory parameters
+const float centerX = 0.0; // X-coordinate of the center of the circle
+const float centerY = 0.0; // Y-coordinate of the center of the circle
+const float radius = 5.0;  // Radius of the circular path (adjust as needed)
+const float angularVelocity = 0.001; // Angular velocity (adjust as needed)
+
+
+// Variables
+float angle = 0.0; // Current angle
+
+
+void setup() {
+  // Initialize motor control pins as outputs
+  pinMode(motor1Pin1, OUTPUT);
+  pinMode(motor1Pin2, OUTPUT);
+  pinMode(motor2Pin1, OUTPUT);
+  pinMode(motor2Pin2, OUTPUT);
+
+
+  // Set initial position
+  float initialX = centerX + radius;
+  float initialY = centerY;
+  moveManipulator(initialX, initialY);
+
+
+  // Initialize serial communication
+  Serial.begin(9600);
+}
+
+
+void loop() {
+  // Calculate the next position on the circular path
+  float nextX = centerX + radius * cos(angle);
+  float nextY = centerY + radius * sin(angle);
+
+
+  // Move to the next position
+  moveManipulator(nextX, nextY);
+
+
+  // Increase the angle
+  angle += angularVelocity;
+
+
+  // Wrap angle within 0 to 2*PI radians (360 degrees)
+  if (angle >= 2 * PI) {
+    angle = 0;
+  }
+
+
+  // Delay to control the speed of motion
+  delay(50);
+}
+
+
+// Move the manipulator to the specified end-tip position
+void moveManipulator(float x, float y) {
+  // Implement your kinematics and motor control logic here
+  // Calculate motor angles and control the motors to move to the desired position
+
+
+  // For simplicity, you can use forward kinematics to approximate motor angles
+  float theta1 = atan2(y, x);
+  float theta2 = acos((x * x + y * y - link1Length * link1Length - link2Length * link2Length) / (2 * link1Length * link2Length));
+
+
+  // Convert angles to degrees
+  float angle1Degrees = degrees(theta1);
+  float angle2Degrees = degrees(theta2);
+
+
+  // Implement motor control logic here (e.g., using PWM for speed control)
+  // Example:
+  analogWrite(motor1Pin1, map(angle1Degrees, 0, 50, 0, 40));
+  analogWrite(motor1Pin2, LOW);
+  analogWrite(motor2Pin1, map(angle2Degrees, 0, 50, 0, 40));
+  analogWrite(motor2Pin2, LOW);
+}
