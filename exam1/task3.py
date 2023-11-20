@@ -35,7 +35,7 @@ def calc_h(r,d):
     
     return h
 
-def end_eff(theta,L,off):
+def Hcalc(theta,L,off):
     theta1,theta2,theta3,theta4,theta5=theta
     l1,l2,l3,l4,l5=L
     off2,off3,off4,off5=off
@@ -51,12 +51,18 @@ def end_eff(theta,L,off):
     H34=calc_h(r34,[l4,0,off4])
     H45=calc_h(r45,[off5,0,l5])
 
-    return H01,H12,H23,H34,H45
+    return np.array([H01,H12,H23,H34,H45])
 
 l=np.ones(5)
 off=np.ones(4)
 theta =[30,20,50,52,45]
 theta=np.deg2rad(theta)
 
-h=end_eff(theta,l,off)
-print(h)
+h=Hcalc(theta,l,off)
+
+def endeff(h,d5):
+    op=np.eye(4)
+    for i in range(5):
+        op=np.matmul(h[i],op)
+    return np.matmul(op,d5)
+print(endeff(h,np.array([0,0,l[-1],1])))
