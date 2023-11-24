@@ -1,0 +1,45 @@
+import numpy as np
+from scipy.spatial.transform import Rotation as R
+
+def compute_kinematics(num_links, dh_params, joint_vars, joint_vels, joint_types=None):
+    if joint_types is None:
+        joint_types = ['R'] * num_links
+
+    # Initialize end-effector position and Jacobian
+    ee_pos = np.zeros(3)
+    J = np.zeros((6, num_links))
+
+    # Compute forward kinematics and Jacobian
+    for i in range(num_links):
+        theta = dh_params[i]['theta']
+        d = dh_params[i]['d']
+        a = dh_params[i]['a']
+        alpha = dh_params[i]['alpha']
+
+        if joint_types[i] == 'R':
+            theta += joint_vars[i]
+        else:
+            d += joint_vars[i]
+
+        # Compute transformation matrix
+        T = np.array([
+            [np.cos(theta), -np.sin(theta)*np.cos(alpha), np.sin(theta)*np.sin(alpha), a*np.cos(theta)],
+            [np.sin(theta), np.cos(theta)*np.cos(alpha), -np.cos(theta)*np.sin(alpha), a*np.sin(theta)],
+            [0, np.sin(alpha), np.cos(alpha), d],
+            [0, 0, 0, 1]
+        ])
+
+        # Update end-effector position
+        ee_pos += T[:3, 3]
+
+        # Compute Jacobian
+        if joint_types[i] == 'R':
+            J[:3, i] = np.cross(T[:3, 2], ee_pos)
+            J[3:, i] = T[:3, 2]
+        else:
+            J[:3, i] = T[:3, 2]
+
+    # Compute end-effector velocity
+    ee_vel = J @ joint_vels
+
+    return J, ee_pos, ee_vel
