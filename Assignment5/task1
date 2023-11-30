@@ -1,0 +1,10 @@
+from math import degrees, acos, asin, sin
+
+def inverse_kinematics(x, y, z, l1, l2, d):
+    q2 = acos((z - l1) / d)
+    q1 = asin(((-y * d * sin(q2)) - (x * l2)) / ((l2 ** 2) + ((d ** 2) * (sin(q2) ** 2))))
+
+    q2 = round(degrees(q2), 2)
+    q1 = round(degrees(q1), 2)
+    return q1, q2
+
