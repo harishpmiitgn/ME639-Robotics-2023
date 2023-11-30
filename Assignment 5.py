@@ -77,7 +77,7 @@ R23 = getR(0)
 
 def inverse_spherical_wrist(r):
     # Given rotation matrix R30
-    r13, r23, r33 = r[0, 2], r[1, 2], r[2, 2]
+    r13, r23, r33, r32 = r[0, 2], r[1, 2], r[2, 2], r[2,1]
     r11, r21, r12, r22 = r[0, 0], r[1, 0], r[0, 1], r[1, 1]
 
     # Solve for theta5
